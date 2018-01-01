@@ -1,0 +1,29 @@
+// -----------------------------------------------------------------
+// Smartdex Web App Styles
+// -----------------------------------------------------------------
+
+
+// Import critical styles and colors
+//@import './_settings.scss';
+//@import './_input.scss';
+//@import './_components.scss';
+//@import './_media.scss';
+
+// Import Page styles (Make sure to import them AFTER the critical imports)
+//@import './_profile.scss';
+
+
+// Global Styles
+body {
+    background-color: black;
+}
+
+.subtext { font-size: 10px; margin-top: 2px; }
+
+
+// Custom button colors and styles
+.btn:hover { cursor: pointer; }
+.btn-dark.active { background-color: #50B0F6; }
+.btn-sd { background-color:transparent; color: #555; border: 1px solid transparent; }
+.btn-sd:hover { color: #222; border: 1px solid #222; }
+.btn-sd.active { border: 1px solid #50B0F6;  }
