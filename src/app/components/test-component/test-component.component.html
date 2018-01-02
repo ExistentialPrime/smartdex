@@ -1,0 +1,28 @@
+<p>
+  Test Component: Paginated Order List
+</p>
+
+<div style="padding: 10px; background-color: #eee;">
+	
+<table>
+	<tr>
+		<th>Order No.</th>
+		<th>Maker</th>
+		<th>Sell</th>
+		<th>Amount</th>
+	</tr>
+	<tr *ngFor="let order of paginatedOrderList.data">
+		<td>{{order.order_number}}</td>
+		<td>{{order.maker}}</td>
+		<td>{{order.sell_currency}}</td>
+		<td>{{order.sell_amount}}</td>
+	</tr>
+</table>
+<p>
+	Page: {{paginatedOrderList.page}} | Per Page: {{paginatedOrderList.perPage}}
+	 | Total: {{paginatedOrderList.total}}
+</p>
+
+
+</div>
+
