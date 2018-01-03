@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { BigNumber } from 'bignumber.js';
 
 import Web3 = require('web3');
 //import { ZeroEx } from '0x.js';
