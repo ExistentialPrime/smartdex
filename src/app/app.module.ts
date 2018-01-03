@@ -8,6 +8,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { TestComponentComponent } from './components/test-component/test-component.component';
 
 import { ApiService } from './services/api.service';
+import { EthService } from './services/eth.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ApiService } from './services/api.service';
 		HttpClientModule
   ],
   providers: [
-		ApiService
+		ApiService,
+		EthService
 	 ],
   bootstrap: [AppComponent]
 })
