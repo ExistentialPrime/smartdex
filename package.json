@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "0x.js": "^0.29.0",
     "@angular/animations": "^5.0.0",
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
@@ -24,7 +25,9 @@
     "bootstrap": "4.0.0-beta.2",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
+    "jquery": "~3.2.1",
     "rxjs": "^5.5.2",
+    "web3": "1.0.0-beta.27",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
@@ -46,6 +49,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
-    "typescript": "~2.4.2"
+    "typescript": "~2.4.2",
+    "web3-typescript-typings": "^0.9.0"
   }
 }
