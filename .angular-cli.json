@@ -24,14 +24,9 @@
         "../node_modules/font-awesome/css/font-awesome.css"
       ],
       "scripts": [
-<<<<<<< HEAD
-        "../node_modules/bootstrap/dist/js/bootstrap.min.js"
-      ],
-=======
 				"../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
 			],
->>>>>>> d59defdf4a2ee2046d65bb600b7989c34dca449c
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
