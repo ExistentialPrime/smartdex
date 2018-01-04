@@ -15,6 +15,8 @@ export class TestComponentComponent implements OnInit {
 
 	test_web3_env: string;
 	test_web3_output: any;
+	test_web3_coinbase: string;
+	test_addresses: string[];
 
   constructor(private apiService: ApiService, private eth: EthService) { }
 
@@ -24,6 +26,13 @@ export class TestComponentComponent implements OnInit {
 		this.triggerGetOrders();
 
 		this.test_web3_env = this.eth.getEnv();
+		this.eth.testZeroEx().then(result => {
+			this.test_web3_coinbase = result;
+		});
+		this.eth.getConnectedAdrresses().then(result => {
+			this.test_addresses = result;
+			if (result.length < 1) { this.test_addresses = ['none']};
+		});
 	}
 	
 	triggerGetOrders(): void { 
