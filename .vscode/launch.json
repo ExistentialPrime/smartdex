@@ -5,11 +5,11 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "chrome",  // Attach Requires chrome to be launched with 
-			"request": "attach",  // external debugging enabled first
 			"name": "Attach to Chrome",
-			"port": 9222,
-      "url": "http://localhost:4200/",
+			"type": "chrome",  // Attach Requires chrome to be launched with 
+			"request": "attach",  // external debugging enabled first and only works
+			"port": 9222,	// when all chrome is shut down first then debug shortcut
+      "url": "http://localhost:4200/", // is opened first
 			"webRoot": "${workspaceFolder}",
 			"sourceMaps": false
 		},
@@ -18,7 +18,8 @@
 			"type": "chrome",
 			"request": "launch",
 			"url": "http://localhost:4200",
-			"webRoot": "${workspaceFolder}/wwwroot"
+			"webRoot": "${workspaceFolder}/wwwroot",
+			"userDataDir" : "${workspaceRoot}/.vscode/chrome"
 	},
 	]
 }

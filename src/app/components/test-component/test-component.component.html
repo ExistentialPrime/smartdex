@@ -21,23 +21,40 @@
 	</p>
 </div>
 
-<div class="container-fluid">
- <div class="row">
-	<div class="col-12"><h4>Web3 (MetaMask) Testing</h4></div>	
-	<div class="col-3">
-		<button class="btn btn-primary" (click)="test_getBalance()">Get Balance</button>
+<div class="container-fluid" style="width: 500px;">
+ <div class="row" style="border: 1px solid grey; margin: 5px; padding: 5px; background-color: #eeeeff;">
+	<div class="col-6"><h4>Wallet</h4></div>
+	<div class="col-6 text-right">
+		Connected: 
+		<span *ngIf="isConnectedToWeb3" style="color: green;">True</span>
+		<span *ngIf="!isConnectedToWeb3" style="color: red;">False</span>
 	</div>
-	<div class="col-9">
-		<p>{{test_web3_output}}</p>
+	<div class="col-12" style="font-size: 10px;" *ngIf="isConnectedToWeb3">
+		Connected Addresses: {{connectedAddress}}
 	</div>
-	<div class="col-12" style="font-size: 10px;">
-		<p>web3 network: '{{test_web3_env}}'</p>		
-		<p>web3 coinbase: {{test_web3_coinbase}}</p>
-		<p>Connected Addresses: {{test_addresses}}</p>
-		<ul>
-			<li *ngFor='let address of test_addresses'>{{address}}</li>
-		</ul>
+	<div class="col-6">
+		<h5>ETH: {{wallet_balances.eth | fromWei }}</h5>
+		<h5>WETH: {{wallet_balances.weth | fromWei }}</h5>
 	</div>
+	<div class="col-6">
+			<h5>GNT: {{wallet_balances.gnt | fromWei }}</h5>
+			<h5>ZRX: {{wallet_balances.zrx | fromWei }}</h5>
+		</div>
  </div>
 </div>
+
+<div class="container-fluid">
+		<div class="row">
+		 <div class="col-12"><h4>Web3 (MetaMask) Testing</h4></div>	
+		 <div class="col-3">
+			 <button class="btn btn-primary" (click)="test_getBalance()">Get Balance</button>
+		 </div>
+		 <div class="col-9">
+			 <p>{{test_web3_output}}</p>
+		 </div>
+		 <div class="col-12" style="font-size: 10px;">
+			 <p>web3 network: '{{test_web3_env}}'</p>
+		 </div>
+		</div>
+	 </div>
 

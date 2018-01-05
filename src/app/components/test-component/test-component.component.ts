@@ -15,8 +15,9 @@ export class TestComponentComponent implements OnInit {
 
 	test_web3_env: string;
 	test_web3_output: any;
-	test_web3_coinbase: string;
-	test_addresses: string[];
+	wallet_balances: any = {};
+	isConnectedToWeb3: boolean = false;
+	connectedAddress: string;
 
   constructor(private apiService: ApiService, private eth: EthService) { }
 
@@ -25,14 +26,31 @@ export class TestComponentComponent implements OnInit {
 		this.paginatedOrderList = 'orders list loading...';
 		this.triggerGetOrders();
 
+		// Scaffold the wallet structure and 0 balances
+		this.scaffoldWallet();
+
+		// Check if metamask is installed (move this to the header component later)
+		if (this.eth.isMetaMaskConnected() == false)
+		{
+			alert('MetaMask is not connected! Please connect before continuing.');
+			this.isConnectedToWeb3 = false;
+		}
+		else {
+			this.eth.isMetaMaskUnlocked().then(result => {
+				this.isConnectedToWeb3 = true;
+			}).catch(error => { 
+				alert('MetaMask is locked! Please unlock before continuing.');
+			});
+		}
+
+
+		// Grab web3 connection info and wallet data
+		this.getWeb3Data().then(() => {
+			this.getWalletBalances();
+		});
+
+		// Testing stuff, remove later
 		this.test_web3_env = this.eth.getEnv();
-		this.eth.testZeroEx().then(result => {
-			this.test_web3_coinbase = result;
-		});
-		this.eth.getConnectedAdrresses().then(result => {
-			this.test_addresses = result;
-			if (result.length < 1) { this.test_addresses = ['none']};
-		});
 	}
 	
 	triggerGetOrders(): void { 
@@ -45,11 +63,46 @@ export class TestComponentComponent implements OnInit {
 		);
 	}
 
+	getWeb3Data(): Promise<any> {
+		// Address
+		return this.eth.getConnectedAdrresses().then(result => {
+			this.connectedAddress = result[0];			
+			return Promise.resolve();
+		}).catch(error => {
+			return Promise.reject(error);
+		});
+		
+	}
+
 	test_getBalance(): void {
 		this.test_web3_output = 'Creating web3 node connection...';
 		let address = '0xcdbe25d67cd8ff96ad4260fe402605a570bc4f69';
-		this.eth.getBalance(address, 5)
+		this.eth.testGetBalance(address, 5)
 			.then(result => this.test_web3_output = result);
+	}
+
+	scaffoldWallet(): void {
+		this.wallet_balances = {};
+		this.wallet_balances.eth = 0.00;
+		this.wallet_balances.weth = 0.00;
+		this.wallet_balances.gnt = 0.00;
+		this.wallet_balances.zrx = 0.00;
+	}
+
+	getWalletBalances(): void {
+		if (this.isConnectedToWeb3 && this.connectedAddress) {
+			// ETH
+			this.eth.getEthBalance(this.connectedAddress)
+			.then(result => this.wallet_balances.eth = result);
+			// WETH
+			this.eth.getWethBalance(this.connectedAddress)
+			.then(result => this.wallet_balances.weth = result);
+			// All Others (GNT and ZRX for now)
+			this.eth.getTokenBalanceGNT(this.connectedAddress)
+			.then(result => this.wallet_balances.gnt = result);
+			this.eth.getTokenBalanceZRX(this.connectedAddress)
+			.then(result => this.wallet_balances.zrx = result);
+		}
 	}
 
 }
