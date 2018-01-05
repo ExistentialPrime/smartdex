@@ -1,0 +1,30 @@
+<div class="wallet" id="main-wallet">
+	<div class="row">
+		 <div class="col-9 title">Wallet</div>
+		 <div class="col-3 text-right">
+			 <i class="fa fa-close clickable" onclick="$('#main-wallet').css({ display: 'none' })"></i>
+			</div>
+		 <div class="col-12 headers">
+				Token | Balance | Enabled
+		 </div>
+		 <div class="col-12">
+			 Connected: 
+			 <span *ngIf="isConnectedToWeb3" style="color: green;">True</span>
+			 <span *ngIf="!isConnectedToWeb3" style="color: red;">False</span>
+		 </div>
+		 <div class="col-12" style="font-size: 10px;" *ngIf="isConnectedToWeb3">
+			 Connected Addresses: {{connectedAddress}}
+		 </div>
+		 <div class="col-6">
+			 <h5>ETH: {{wallet_balances.eth | fromWei }}</h5>
+			 <h5>WETH: {{wallet_balances.weth | fromWei }}</h5>
+		 </div>
+		 <div class="col-6">
+				 <h5>GNT: {{wallet_balances.gnt | fromWei }}</h5>
+				 <h5>ZRX: {{wallet_balances.zrx | fromWei }}</h5>
+			 </div>
+			 <div class="col-12" style="font-size: 10px;">
+				 <p>web3 network: '{{test_web3_env}}'</p>
+		 </div>
+	</div>
+</div>

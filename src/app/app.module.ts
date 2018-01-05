@@ -3,6 +3,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';  // replaces previous Http service
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Components
 // -----------------------------------------------------------
@@ -14,6 +15,7 @@ import { SellOrdersComponent } from './sell-orders/sell-orders.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { FooterComponent } from './footer/footer.component';
 import { TestComponentComponent } from './components/test-component/test-component.component';
+import { WalletComponent } from './components/wallet/wallet.component';
 
 // Services
 // -----------------------------------------------------------
@@ -38,11 +40,13 @@ import { FromWeiPipe } from './pipes/fromWei.pipe';
     OrderHistoryComponent,
     SellOrdersComponent,
 		TestComponentComponent,
-		TimeAgoPipe
+		TimeAgoPipe,
+		WalletComponent
   ],
   imports: [
 		BrowserModule,
-		HttpClientModule
+		HttpClientModule,
+		NgbModule.forRoot()
   ],
   providers: [
 		ApiService,

@@ -1,15 +1,7 @@
-<!--
-<div style="text-align:center">
-  <h1>
-    Welcome to SmartDEX!
-  </h1>
-  <img src="assets/img/abstract-s.jpg">
-</div>
-<h2>Content Here</h2>
--->
 <div>
   <app-header></app-header>
-  <app-menu></app-menu>
+	<app-menu></app-menu>
+	<app-wallet></app-wallet>
   <div class="container-fluid">
     <app-order-book></app-order-book>
     <app-sell-orders></app-sell-orders>
@@ -22,3 +14,19 @@
 <div>
 	<app-test-component></app-test-component>
 </div>
+
+<!-- Site-wide Modal (turn this into a component) -->
+<ng-template #maincontent let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<h4 class="modal-title">Modal Title Here</h4>
+		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<p>Main site wide modal &hellip;</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+	</div>
+</ng-template>

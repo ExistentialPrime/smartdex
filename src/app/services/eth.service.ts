@@ -22,7 +22,7 @@ export class EthService {
 	private nodeUnlocked: boolean = false;	  // Is MetaMask unlocked
 	private web3Instance: Eth;                // Current instance of web3
 	private unlockedAccount: string;          // Current unlocked account
-
+	private zrxInstance: ZeroEx;							// Current instance of ZeroEx
 
 	// Constructor
 	constructor() {	 }
@@ -38,17 +38,11 @@ export class EthService {
 
 	// Check if MetaMask is unlocked
 	public isMetaMaskUnlocked(): Promise<boolean> {
-		// Need to use the web3 version because metamask sucks
-		return new Promise ((resolve, reject) => {
-			this.eth.eth.getAccounts((error, accounts) => { 
-				if (error) { reject(error); }
-				else {
-					if (accounts.length > 0)
-					  resolve(true); 
-					else
-						reject(false);
-				}
-			})
+		return this.eth.accounts().then(accounts => {
+			if (accounts.length > 0)
+				return Promise.resolve(true); 
+			else
+				return Promise.reject(false);
 		});
 	}
 	
@@ -66,18 +60,7 @@ export class EthService {
 	}
 
 	public getConnectedAdrresses(): Promise<string[]> {
-		// Connect to metamask
-		this.eth = new this.Web3(window['web3'].currentProvider);
-		
-		//let provider = new Eth.HttpProvider(environment.WEB3_METAMASK); //(this.web3_node);
-		let config = this.generateConfig();
-		//let zrx = new ZeroEx(provider, config);
-		let zrx = new ZeroEx(this.eth.currentProvider, config);
-
-		zrx.getAvailableAddressesAsync().then(result => {
-			let temp = result;
-		});
-		return zrx.getAvailableAddressesAsync();
+		return this.zrx.getAvailableAddressesAsync();
 	}
 
 	// Get the ether balance of the specified address (ethjs promise version)
@@ -100,43 +83,36 @@ export class EthService {
 
 	// Returns the balance of ETH (not in gwei)
 	public getEthBalance(address: string): Promise<any> {
-	
-		return new Promise ((resolve, reject) => {
-			// we have to use the web3 version of this call beacause MetaMask sucks
-			this.eth.eth.getBalance(address, (error, result) => { 
-				if (error) { reject(error); }
-				else { resolve(result); }
-			});
-		});
-		
+		return this.eth.getBalance(address);
 	}
 
 	// Returns the connected MetaMask accounts WETH balance
 	public getWethBalance(address: string): Promise<any> {
-
-		// make ZRX reusable like eth
-		let config = this.generateConfig();
-		let zrx = new ZeroEx(this.eth.currentProvider, config);
 		let token = environment.network.contracts.EtherToken;
-		return zrx.token.getBalanceAsync(token, address);
+		return this.zrx.token.getBalanceAsync(token, address);
 	}
 
 
 	// Return a json array with balances for all tokens
-	public getTokenBalanceGNT(address: string): Promise<any> {
-		// make zrx reusable
-		let config = this.generateConfig();
-		let zrx = new ZeroEx(this.eth.currentProvider, config);
+	public getTokenBalanceGNT(address: string): Promise<any> {		
 		let token = environment.network.contracts.GNTToken;
-		return zrx.token.getBalanceAsync(token, address)
+		return this.zrx.token.getBalanceAsync(token, address)
 	}
 	public getTokenBalanceZRX(address: string): Promise<any> {
-		// make zrx reusable
-		let config = this.generateConfig();
-		let zrx = new ZeroEx(this.eth.currentProvider, config);
 		let token = environment.network.contracts.ZRXToken;
-		return zrx.token.getBalanceAsync(token, address)
+		return this.zrx.token.getBalanceAsync(token, address)
 	}
+
+
+
+	public async authorizeTokenAllowance(userAddress, token): Promise<any> {
+		let tokenAddress = this.getTokenAddressFromName(token);
+		if (tokenAddress == null)
+			return Promise.reject('invalid token code');
+		let txHash = await this.zrx.token.setUnlimitedProxyAllowanceAsync(tokenAddress,  userAddress);
+		return this.zrx.awaitTransactionMinedAsync(txHash);
+	}
+
 
 	// ZeroEx config - move this somewhere reusable
 	generateConfig() {
@@ -160,7 +136,8 @@ export class EthService {
 
 	intializeWeb3(): void {
 		if (typeof window['web3'] !== 'undefined') {
-			this.eth = new this.Web3(window['web3'].currentProvider);
+			//this.eth = new this.Web3(window['web3'].currentProvider); // web3 version
+			this.eth = new Eth(window['web3'].currentProvider); // ets use EthJS instead of web3
 			this.nodeConnected = true;
 			this.update.emit(null);
 		}
@@ -168,7 +145,6 @@ export class EthService {
 			this.nodeConnected = false;
 		}
 	}
-
 
 	get eth(): any {
 		if (!this.web3Instance) {
@@ -180,10 +156,31 @@ export class EthService {
 			this.web3Instance = web3;
 	}
 
-	get Web3(): any {
-		return window['Web3'];
+
+
+	// ---------------------------------------------
+	// Make our ZeroEx instance available on demand
+	// ---------------------------------------------
+
+	initializeZeroEx(): void {
+		let config = this.generateConfig();
+		this.zrx = new ZeroEx(this.eth.currentProvider, config);
 	}
 
+	get zrx(): ZeroEx {
+		if (!this.zrxInstance) {
+			this.initializeZeroEx();
+		}
+		return this.zrxInstance;
+	}
+	set zrx(newZrx: ZeroEx) {
+		this.zrxInstance = newZrx;
+	}
+
+
+	// -------------------------------------------
+	// Support functions
+	// -------------------------------------------
 	weiToEth(wei: number): number {
 		return parseFloat(Eth.fromWei(wei, 'ether'));
 	}
@@ -196,7 +193,14 @@ export class EthService {
 	// When passed in 10000000... (wei) returns 1 (ETHER)
   toUnit(number) {
     return ZeroEx.toUnitAmount(new BigNumber(`${number}`), 18);
-  }
+	}
+	
+	getTokenAddressFromName(tokenName): string {
+		let addr = environment.network.contracts[`${tokenName}Token`];
+		if (addr == null || addr == undefined || addr == '')
+			return null;
+		return addr;
+	}
 
 
 }
