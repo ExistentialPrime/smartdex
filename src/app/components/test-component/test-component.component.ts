@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { EthService } from '../../services/eth.service';
 import { Observable } from 'rxjs/Rx';
+import swal from 'sweetalert2';
 
 
 @Component({
@@ -31,14 +32,14 @@ export class TestComponentComponent implements OnInit {
 		// Check if metamask is installed (move this to the header component later)
 		if (this.eth.isMetaMaskConnected() == false)
 		{
-			//alert('MetaMask is not connected! Please connect before continuing.');
+			this.warningModal('Notice:', 'MetaMask is not connected! Please connect before continuing.');
 			this.isConnectedToWeb3 = false;
 		}
 		else {
 			this.eth.isMetaMaskUnlocked().then(result => {
 				this.isConnectedToWeb3 = true;
 			}).catch(error => { 
-				//alert('MetaMask is locked! Please unlock before continuing.');
+				this.warningModal('Alert', 'MetaMask is locked! Please unlock before continuing.');
 			});
 		}
 
@@ -73,14 +74,13 @@ export class TestComponentComponent implements OnInit {
 		
 	}
 
-	
-	open(content) {
-    this.modalService.open(content).result.then((result) => {
-      console.log(`Modal Closed with: ${result}`);
-    }, (reason) => {
-      console.log(`Modal Dismissed ${reason} - probably ESCAPE`);
-    });
-  }
+	warningModal(title: string, message: string): void {
+		swal({
+			title: title,
+			text: message,
+			type: 'error',
+		})
+	}
 	
 
 }

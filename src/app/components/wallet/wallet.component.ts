@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EthService } from '../../services/eth.service';
 import { Observable } from 'rxjs/Rx';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-wallet',
@@ -14,6 +15,9 @@ export class WalletComponent implements OnInit {
 	isConnectedToWeb3: boolean = false;
 	connectedAddress: string;
 
+	toggleBg = '#999999';
+	toggleSwitch = '#cccccc';
+
 	// Constructor
   constructor(private eth: EthService) { }
 
@@ -25,12 +29,8 @@ export class WalletComponent implements OnInit {
 		// Testing stuff, remove later
 		this.test_web3_env = this.eth.getEnv();
 
-		// Grab web3 connection info and wallet data
-		if (this.isConnectedToWeb3) {
-			this.getWeb3Data().then(() => {
-				this.getWalletBalances();
-			});
-		}
+		// Ensure connection to MetaMask/web3
+		this.connectToMetaMask();
 
 	}
 	
@@ -59,8 +59,31 @@ export class WalletComponent implements OnInit {
 		}
 	}
 
+
+	// Check if metamask is installed (move this to the header component later)
+	// TODO: async update after metamask is unlocked to prevent a manual page refresh
+	private connectToMetaMask() {		
+		if (this.eth.isMetaMaskConnected() == false)
+		{
+			this.warningModal('Notice:', 'MetaMask is not connected! Please connect before continuing.');
+			this.isConnectedToWeb3 = false;
+		}
+		else {
+			this.eth.isMetaMaskUnlocked().then(result => {
+				this.isConnectedToWeb3 = true;
+				this.getWeb3Data().then(() => {
+					this.getWalletBalances();
+				});
+
+			}).catch(error => { 
+				this.warningModal('Alert', 'MetaMask is locked! Please unlock before continuing.');
+			});
+		}
+
+	}
+
+	// After we are connected to metamask, use this to get the address
 	getWeb3Data(): Promise<any> {
-		// Address
 		return this.eth.getConnectedAdrresses().then(result => {
 			this.connectedAddress = result[0];			
 			return Promise.resolve();
@@ -69,6 +92,15 @@ export class WalletComponent implements OnInit {
 		});
 		
 	}
+
+	warningModal(title: string, message: string): void {
+		swal({
+			title: title,
+			text: message,
+			type: 'error',
+		})
+	}
+	
 
 }
 

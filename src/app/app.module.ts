@@ -4,16 +4,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';  // replaces previous Http service
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 // Components
 // -----------------------------------------------------------
 import { AppComponent } from './components/app.component';
+import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MenuComponent } from './menu/menu.component';
+import { ModalComponent } from './components/modal/modal.component';
 import { OrderBookComponent } from './order-book/order-book.component';
-import { SellOrdersComponent } from './sell-orders/sell-orders.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
-import { FooterComponent } from './footer/footer.component';
+import { SellOrdersComponent } from './sell-orders/sell-orders.component';
 import { TestComponentComponent } from './components/test-component/test-component.component';
 import { WalletComponent } from './components/wallet/wallet.component';
 
@@ -36,6 +38,7 @@ import { FromWeiPipe } from './pipes/fromWei.pipe';
 		FromWeiPipe,
     HeaderComponent,
     MenuComponent,
+		ModalComponent,
     OrderBookComponent,
     OrderHistoryComponent,
     SellOrdersComponent,
@@ -46,7 +49,8 @@ import { FromWeiPipe } from './pipes/fromWei.pipe';
   imports: [
 		BrowserModule,
 		HttpClientModule,
-		NgbModule.forRoot()
+		NgbModule.forRoot(),
+		UiSwitchModule
   ],
   providers: [
 		ApiService,
