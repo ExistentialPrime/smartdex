@@ -11,11 +11,11 @@ import { UiSwitchModule } from 'ngx-ui-switch';
 import { AppComponent } from './components/app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { ModalComponent } from './components/modal/modal.component';
 import { OrderBookComponent } from './components/order-book/order-book.component';
 import { SellOrdersComponent } from './components/sell-orders/sell-orders.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ModalComponent } from './components/modal/modal.component';
 import { TestComponentComponent } from './components/test-component/test-component.component';
 import { WalletComponent } from './components/wallet/wallet.component';
 
@@ -34,14 +34,14 @@ import { FromWeiPipe } from './pipes/fromWei.pipe';
 @NgModule({
   declarations: [
 		AppComponent,
-    FooterComponent,
+  	FooterComponent,
 		FromWeiPipe,
-    HeaderComponent,
-    MenuComponent,
+  	HeaderComponent,
+  	MenuComponent,
 		ModalComponent,
-    OrderBookComponent,
-    OrderHistoryComponent,
-    SellOrdersComponent,
+  	OrderBookComponent,
+  	OrderHistoryComponent,
+  	SellOrdersComponent,
 		TestComponentComponent,
 		TimeAgoPipe,
 		WalletComponent
