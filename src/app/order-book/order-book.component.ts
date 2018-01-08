@@ -50,5 +50,5 @@ export class OrderBookComponent implements OnInit {
       },
     ];
   }
-  
+
 }

@@ -34,18 +34,18 @@ export class EthService {
 	public isMetaMaskConnected(): boolean {
 		this.nodeConnected = typeof window['web3'] !== 'undefined';
 		return this.nodeConnected;
-	} 
+	}
 
 	// Check if MetaMask is unlocked
 	public isMetaMaskUnlocked(): Promise<boolean> {
 		return this.eth.accounts().then(accounts => {
 			if (accounts.length > 0)
-				return Promise.resolve(true); 
+				return Promise.resolve(true);
 			else
 				return Promise.reject(false);
 		});
 	}
-	
+
 
 	// Test ZeroEx by connecting directly to infura, not metamask
 	public testZeroEx(): Promise<any> {
@@ -55,8 +55,8 @@ export class EthService {
 		let tokenaddr = '0xd0a1e359811322d97991e03f863a0c30c2cf029c'; // ether token
 		let addr = '0xcdbe25d67cd8ff96ad4260fe402605a570bc4f69';
 		return zrx.token.getBalanceAsync(tokenaddr, addr).then(result => {
-			return "WETH token balance: " + Eth.fromWei(result, 'ether');;
-		})
+			return `WETH token balance: ` + Eth.fromWei(result, 'ether');
+		});
 	}
 
 	public getConnectedAdrresses(): Promise<string[]> {
@@ -68,7 +68,7 @@ export class EthService {
 		let bal = 'Creating web3 node connection...';
 		let eth = new Eth(new Eth.HttpProvider(environment.WEB3_NODE));
 
-		return eth.getBalance(address).then(result => { 
+		return eth.getBalance(address).then(result => {
 			let amount = Eth.fromWei(result, 'ether');
 			if (decimals) { amount = parseFloat(amount).toFixed(decimals); }
 			bal = `Balance: ${amount} ETH`;
@@ -94,13 +94,13 @@ export class EthService {
 
 
 	// Return a json array with balances for all tokens
-	public getTokenBalanceGNT(address: string): Promise<any> {		
+	public getTokenBalanceGNT(address: string): Promise<any> {
 		let token = environment.network.contracts.GNTToken;
-		return this.zrx.token.getBalanceAsync(token, address)
+		return this.zrx.token.getBalanceAsync(token, address);
 	}
 	public getTokenBalanceZRX(address: string): Promise<any> {
 		let token = environment.network.contracts.ZRXToken;
-		return this.zrx.token.getBalanceAsync(token, address)
+		return this.zrx.token.getBalanceAsync(token, address);
 	}
 
 
@@ -119,14 +119,13 @@ export class EthService {
     let env = environment.network; // (Kovan network unless building with --prod)
     let config = {
       networkId: env.networkId, // kovan: 42,
-      etherTokenContractAddress: env.contracts[`EtherToken`], //kovan: "0xd0a1e359811322d97991e03f863a0c30c2cf029c",
-      exchangeContractAddress: env.contracts[`Exchange`], //kovan: "0x90fe2af704b34e0224bf2299c838e04d4dcf1364",
-      tokenRegistryContractAddress: env.contracts[`TokenRegistry`], //kovan: "0xf18e504561f4347bea557f3d4558f559dddbae7f",
-      tokenTransferProxyContractAddress: env.contracts[`TokenTransferProxy`] //kovan: "0x087eed4bc1ee3de49befbd66c662b434b15d49d4"
-    }
-    return config
+      etherTokenContractAddress: env.contracts[`EtherToken`], // kovan: "0xd0a1e359811322d97991e03f863a0c30c2cf029c",
+      exchangeContractAddress: env.contracts[`Exchange`], // kovan: "0x90fe2af704b34e0224bf2299c838e04d4dcf1364",
+      tokenRegistryContractAddress: env.contracts[`TokenRegistry`], // kovan: "0xf18e504561f4347bea557f3d4558f559dddbae7f",
+      tokenTransferProxyContractAddress: env.contracts[`TokenTransferProxy`] // kovan: "0x087eed4bc1ee3de49befbd66c662b434b15d49d4"
+    };
+    return config;
 	}
-	
 
 
 	// ------------------------------------
@@ -136,7 +135,7 @@ export class EthService {
 
 	intializeWeb3(): void {
 		if (typeof window['web3'] !== 'undefined') {
-			//this.eth = new this.Web3(window['web3'].currentProvider); // web3 version
+			// this.eth = new this.Web3(window['web3'].currentProvider); // web3 version
 			this.eth = new Eth(window['web3'].currentProvider); // ets use EthJS instead of web3
 			this.nodeConnected = true;
 			this.update.emit(null);
@@ -194,10 +193,10 @@ export class EthService {
   toUnit(number) {
     return ZeroEx.toUnitAmount(new BigNumber(`${number}`), 18);
 	}
-	
+
 	getTokenAddressFromName(tokenName): string {
 		let addr = environment.network.contracts[`${tokenName}Token`];
-		if (addr == null || addr == undefined || addr == '')
+		if (addr == null || addr === undefined || addr === '')
 			return null;
 		return addr;
 	}

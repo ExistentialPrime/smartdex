@@ -14,7 +14,7 @@ export class ModalComponent implements OnInit {
   ngOnInit() {
 		// TODO
 	}
-	
+
 	open(content) {
     this.modalService.open(content).result.then((result) => {
       console.log(`Modal Closed with: ${result}`);
@@ -22,7 +22,7 @@ export class ModalComponent implements OnInit {
       console.log(`Modal Dismissed ${this.getDismissReason(reason)}`);
     });
 	}
-	
+
 	private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';

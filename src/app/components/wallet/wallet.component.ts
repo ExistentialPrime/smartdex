@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EthService } from '../../services/eth.service';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
 import swal from 'sweetalert2';
 
 @Component({
@@ -9,7 +10,7 @@ import swal from 'sweetalert2';
 })
 export class WalletComponent implements OnInit {
 
-	// Properties 
+	// Properties
 	test_web3_env: string;
 	wallet_balances: any = {};
 	isConnectedToWeb3: boolean = false;
@@ -25,7 +26,7 @@ export class WalletComponent implements OnInit {
   ngOnInit() {
 		// Scaffold the wallet structure and 0 balances
 		this.scaffoldWallet();
-		
+
 		// Testing stuff, remove later
 		this.test_web3_env = this.eth.getEnv();
 
@@ -33,7 +34,7 @@ export class WalletComponent implements OnInit {
 		this.connectToMetaMask();
 
 	}
-	
+
 
 	scaffoldWallet(): void {
 		this.wallet_balances = {};
@@ -62,9 +63,8 @@ export class WalletComponent implements OnInit {
 
 	// Check if metamask is installed (move this to the header component later)
 	// TODO: async update after metamask is unlocked to prevent a manual page refresh
-	private connectToMetaMask() {		
-		if (this.eth.isMetaMaskConnected() == false)
-		{
+	private connectToMetaMask() {
+		if (this.eth.isMetaMaskConnected() === false) {
 			this.warningModal('Notice:', 'MetaMask is not connected! Please connect before continuing.');
 			this.isConnectedToWeb3 = false;
 		}
@@ -75,7 +75,7 @@ export class WalletComponent implements OnInit {
 					this.getWalletBalances();
 				});
 
-			}).catch(error => { 
+			}).catch(error => {
 				this.warningModal('Alert', 'MetaMask is locked! Please unlock before continuing.');
 			});
 		}
@@ -85,12 +85,11 @@ export class WalletComponent implements OnInit {
 	// After we are connected to metamask, use this to get the address
 	getWeb3Data(): Promise<any> {
 		return this.eth.getConnectedAdrresses().then(result => {
-			this.connectedAddress = result[0];			
+			this.connectedAddress = result[0];
 			return Promise.resolve();
 		}).catch(error => {
 			return Promise.reject(error);
 		});
-		
 	}
 
 	warningModal(title: string, message: string): void {
@@ -98,9 +97,8 @@ export class WalletComponent implements OnInit {
 			title: title,
 			text: message,
 			type: 'error',
-		})
+		});
 	}
-	
 
 }
 
