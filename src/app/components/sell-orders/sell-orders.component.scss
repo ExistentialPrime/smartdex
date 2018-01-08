@@ -1,0 +1,30 @@
+.card {
+    margin-bottom: 2rem;
+}
+.card-header {
+
+}
+.card-toolbar {
+    padding-top: 0.5rem;
+    padding-bottom: 0rem;
+    label {
+        margin:0;
+    }
+}
+.card-footer {
+    padding: .5rem;
+}
+tr td {
+    vertical-align: middle; 
+}
+tr td:last-child{
+    width:1%;
+    white-space:nowrap;
+}
+tr td button {
+    padding: 0.2rem 0.5rem;
+    margin: 0 0.5rem;
+}
+.disabled {
+    color:lightgrey;
+}

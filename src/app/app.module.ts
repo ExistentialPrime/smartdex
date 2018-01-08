@@ -5,11 +5,11 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './components/app.component';
 import { HeaderComponent } from './components/header/header.component';
-import { MenuComponent } from './menu/menu.component';
-import { OrderBookComponent } from './order-book/order-book.component';
-import { SellOrdersComponent } from './sell-orders/sell-orders.component';
-import { OrderHistoryComponent } from './order-history/order-history.component';
-import { FooterComponent } from './footer/footer.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { OrderBookComponent } from './components/order-book/order-book.component';
+import { SellOrdersComponent } from './components/sell-orders/sell-orders.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { TestComponentComponent } from './components/test-component/test-component.component';
 
 import { ApiService } from './services/api.service';
