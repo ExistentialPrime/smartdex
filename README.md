@@ -1,6 +1,6 @@
-# Smartdex
+# SmartDEX
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.3.
+Framework for a modern, responsive decentralized exchange
 
 ## Development server
 

@@ -12,6 +12,7 @@
 			"webRoot": "${workspaceFolder}/wwwroot",
 			"userDataDir" : "${workspaceRoot}/.vscode/chrome"
 		},
+		
 		/*{
 			"name": "Attach to Chrome",
 			"type": "chrome",  // Attach Requires chrome to be launched with 

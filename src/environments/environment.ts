@@ -33,7 +33,6 @@ export const environment = {
     'BAT',
     'BNT',
     'BQX',
-    'CFI',
     'CVC',
     'DGD',
     'DNT',

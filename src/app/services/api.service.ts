@@ -27,7 +27,7 @@ export class ApiService {
 	}
 
 	/* Utility functions */
-	/* ------------------------------------------------------- */
+	/* -------------------------------------------------------- */
 	private handleError(error: any): Observable<any> {
 		console.error('An error occurred and was caught by Angular5: ', error);
 		return Observable.throw(error);
