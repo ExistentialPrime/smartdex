@@ -13,6 +13,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 2. Set up launch.json to either LAUNCH or ATTACH as desired
 3. Run the selected configuration of debugger via Debug tab
 4. If needed: See documentation at https://github.com/Microsoft/vscode-chrome-debug
+5. To set up a specific profile (different than your default) to use with MetaMask installed, make sure to add `"userDataDir" : "${workspaceRoot}/.vscode/chrome"` to your config, and then add metamask to that profile when launched
 
 ## Code scaffolding
 

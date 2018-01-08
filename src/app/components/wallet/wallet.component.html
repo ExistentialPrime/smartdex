@@ -1,0 +1,44 @@
+<div class="wallet" id="main-wallet">
+	<div class="row">
+		 <div class="col-9 title">WALLET</div>
+		 <div class="col-3 text-right">
+			 <i class="fa fa-close clickable" onclick="$('#main-wallet').css({ display: 'none' })"></i>
+			</div>
+		 <div class="col-12">
+				<table class="token-list">
+					<tr>
+						<th>Token</th>
+						<th>Balance</th>
+						<th>Enabled</th>
+					</tr>
+					<tr>
+						<td>ETH</td>
+						<td>{{wallet_balances.eth | fromWei }}</td>
+						<td><ui-switch size="small" [defaultBgColor]="toggleBg" [switchColor]="toggleSwitch"></ui-switch></td>
+					</tr>
+					<tr>
+						<td>WETH</td>
+						<td>{{wallet_balances.weth | fromWei }}</td>
+						<td><ui-switch size="small" [defaultBgColor]="toggleBg" [switchColor]="toggleSwitch"></ui-switch></td>
+					</tr>
+					<tr>
+						<td>GNT</td>
+						<td>{{wallet_balances.gnt | fromWei }}</td>
+						<td><ui-switch size="small" [defaultBgColor]="toggleBg" [switchColor]="toggleSwitch"></ui-switch></td>
+					</tr>
+					<tr>
+						<td>ZRX</td>
+						<td>{{wallet_balances.zrx | fromWei }}</td>
+						<td><ui-switch size="small" [defaultBgColor]="toggleBg" [switchColor]="toggleSwitch"></ui-switch></td>
+					</tr>
+				</table>
+		 </div>
+		 <div class="col-12" style="margin-top: 10px; font-size: 11px;">
+			 Debug Data: <br/>Connected: 
+			 <span *ngIf="isConnectedToWeb3" style="color: green;">True</span>
+			 <span *ngIf="!isConnectedToWeb3" style="color: red;">False</span>
+			 <br/>Connected Addresses: {{connectedAddress}}
+			 <br/>web3 network: '{{test_web3_env}}'
+		 </div>
+	</div> <!-- End 'row' --> 
+</div> <!-- End wallet -->

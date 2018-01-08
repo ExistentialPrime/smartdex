@@ -4,22 +4,22 @@
 
 
 // Import critical styles and colors
-//@import './_settings.scss';
+@import './_settings.scss';  // color settings
 //@import './_input.scss';
 //@import './_components.scss';
 //@import './_media.scss';
 
 // Import Page styles (Make sure to import them AFTER the critical imports)
-//@import './_profile.scss';
+@import './_wallet.scss';
 
 
 // Global Styles
 body {
-    background-color: rgb(1, 14, 22);
+    background-color: $background-primary;
 }
 
 .subtext { font-size: 10px; margin-top: 2px; }
-
+.clickable { cursor: pointer; }
 
 // Custom button colors and styles
 .btn:hover { cursor: pointer; }

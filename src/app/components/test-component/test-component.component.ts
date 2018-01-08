@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../../services/api.service';
 import { EthService } from '../../services/eth.service';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import swal from 'sweetalert2';
 
 
 @Component({
@@ -11,36 +13,70 @@ import { Observable } from 'rxjs/Rx';
 })
 export class TestComponentComponent implements OnInit {
 
-	paginatedOrderList: any; // API returns an object with page info and 'data' array	
+	paginatedOrderList: any; // API returns an object with page info and 'data' array
+	isConnectedToWeb3: boolean = false;
+	connectedAddress: string;
 
-	test_web3_env: string;
-	test_web3_output: any;
-
-  constructor(private apiService: ApiService, private eth: EthService) { }
+	constructor(
+		private apiService: ApiService,
+		private eth: EthService,
+		private modalService: NgbModal
+	) { }
 
   ngOnInit() {
-		this.test_web3_output = 'Awaiting web3 command. Using static eth address.';		
 		this.paginatedOrderList = 'orders list loading...';
 		this.triggerGetOrders();
 
-		this.test_web3_env = this.eth.getEnv();
+
+		// Check if metamask is installed (move this to the header component later)
+		if (this.eth.isMetaMaskConnected() === false) {
+			this.warningModal('Notice:', 'MetaMask is not connected! Please connect before continuing.');
+			this.isConnectedToWeb3 = false;
+		}
+		else {
+			this.eth.isMetaMaskUnlocked().then(result => {
+				this.isConnectedToWeb3 = true;
+			}).catch(error => {
+				this.warningModal('Alert', 'MetaMask is locked! Please unlock before continuing.');
+			});
+		}
+
+
+		// Grab web3 connection info and wallet data
+		if (this.isConnectedToWeb3) {
+			this.getWeb3Data().then(() => {
+				// this.getWalletBalances();
+			});
+		}
+
 	}
-	
-	triggerGetOrders(): void { 
+
+	triggerGetOrders(): void {
 		this.apiService.getOrders().subscribe(
-			data => { 
-				this.paginatedOrderList = data
+			data => {
+				this.paginatedOrderList = data;
 			},
 			err => console.error('Error fetching orders: ', err), // or can display the error in a modal here
 			() => console.log('done loading orders')
 		);
 	}
 
-	test_getBalance(): void {
-		this.test_web3_output = 'Creating web3 node connection...';
-		let address = '0xcdbe25d67cd8ff96ad4260fe402605a570bc4f69';
-		this.eth.getBalance(address, 5)
-			.then(result => this.test_web3_output = result);
+	getWeb3Data(): Promise<any> {
+		// Address
+		return this.eth.getConnectedAdrresses().then(result => {
+			this.connectedAddress = result[0];
+			return Promise.resolve();
+		}).catch(error => {
+			return Promise.reject(error);
+		});
+	}
+
+	warningModal(title: string, message: string): void {
+		swal({
+			title: title,
+			text: message,
+			type: 'error',
+		});
 	}
 
 }
