@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderBook } from "../../models/order-book.model";
+import { OrderBook } from '../../models/order-book.model';
 
 @Component({
   selector: 'app-order-book',
@@ -9,8 +9,8 @@ import { OrderBook } from "../../models/order-book.model";
 export class OrderBookComponent implements OnInit {
 
   tokens: string[] = [
-    'OMG','EOS','QTUM','TAAS'
-  ]
+    'OMG', 'EOS', 'QTUM', 'TAAS'
+  ];
 
   orderbook: OrderBook[] = [
     {

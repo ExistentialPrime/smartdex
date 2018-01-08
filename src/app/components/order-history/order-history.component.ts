@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderHistory } from '../../models/order-history.model'
+import { OrderHistory } from '../../models/order-history.model';
 
 @Component({
   selector: 'app-order-history',
